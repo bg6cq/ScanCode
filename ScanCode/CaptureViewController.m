@@ -140,25 +140,37 @@ const char *kScanCodeQueueName = "ScanCodeQueue";
         NSLog(@"other code");
 
     }
-    NSString* urlprefix = @"https://linux.ustc.edu.cn/2020/test.php?gid=";
-    NSString* gid = [metadataObject.stringValue substringToIndex:10];
-    NSString *captureStr =  [urlprefix stringByAppendingString:gid];
+
+    NSLog(@"%@",metadataObject.stringValue);
+
+    if( [metadataObject.stringValue hasPrefix:@"http://ecar"] )
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请扫描另一个二维码"
+                                        message:@"扫描的二维码不正确"
+                                        delegate:nil
+                                        cancelButtonTitle:@"ok"
+                                        otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
+
+    NSString *url;
     
-    NSLog(@"%@",captureStr);
+    if( [metadataObject.stringValue hasPrefix:@"http"] )
+    {
+        url = metadataObject.stringValue;
+    }else {
+        NSString* urlprefix = @"https://linux.ustc.edu.cn/2020/test.php?gid=";
+        NSString* gid = [metadataObject.stringValue substringToIndex:10];
+        url = [urlprefix stringByAppendingString:gid];
+    }
+
+    NSLog(@"%@",url);
     BrowserViewController *browserViewController = [[BrowserViewController alloc] init];
-    browserViewController.urlStr = captureStr;
+    browserViewController.urlStr = url;
         
     [self.navigationController pushViewController:browserViewController animated:YES];
 
-    if(0)
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"scan result"
-                                                        message:captureStr
-                                                       delegate:nil
-                                              cancelButtonTitle:@"ok"
-                                              otherButtonTitles: nil];
-        [alert show];
-    }
 }
 
 - (void)switchLight
