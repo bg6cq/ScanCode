@@ -28,8 +28,8 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     UIButton *scanButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    scanButton.frame = CGRectMake(160, 300, 60, 30);
-    [scanButton setTitle:@"scan" forState:UIControlStateNormal];
+    scanButton.frame = CGRectMake(160, 300, 100, 30);
+    [scanButton setTitle:@"扫描一卡通" forState:UIControlStateNormal];
     [scanButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [scanButton setTitleColor:[UIColor greenColor] forState:UIControlEventTouchDown];
     [scanButton addTarget:self action:@selector(ScanButtonClicked) forControlEvents:UIControlEventTouchUpInside];

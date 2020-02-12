@@ -43,12 +43,11 @@ const char *kScanCodeQueueName = "ScanCodeQueue";
     isLightOpen = NO;
     UIButton *lightButton = [UIButton buttonWithType:UIButtonTypeCustom];
     lightButton.frame = CGRectMake(self.view.frame.size.width/2 - 50, 500, 100, 50);
-    [lightButton setTitle:@"open_light" forState:UIControlStateNormal];
+    [lightButton setTitle:@"打开闪光灯" forState:UIControlStateNormal];
     [lightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [lightButton setTitleColor:[UIColor greenColor] forState:UIControlEventTouchDown];
     [lightButton addTarget: self action:@selector(switchLight) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:lightButton];
-    
     //start capture
     [self initCapture];
     [session startRunning];
@@ -141,18 +140,17 @@ const char *kScanCodeQueueName = "ScanCodeQueue";
         NSLog(@"other code");
 
     }
-    NSString *captureStr = metadataObject.stringValue;
-    NSLog(@"%@",captureStr);
+    NSString* urlprefix = @"https://linux.ustc.edu.cn/2020/test.php?gid=";
+    NSString* gid = [metadataObject.stringValue substringToIndex:10];
+    NSString *captureStr =  [urlprefix stringByAppendingString:gid];
     
-    //if the string is URL, then push a view and open the website, otherwise just pop a dialog to show the msg
-    if([self isURL:captureStr])
-    {
-        BrowserViewController *browserViewController = [[BrowserViewController alloc] init];
-        browserViewController.urlStr = captureStr;
+    NSLog(@"%@",captureStr);
+    BrowserViewController *browserViewController = [[BrowserViewController alloc] init];
+    browserViewController.urlStr = captureStr;
         
-        [self.navigationController pushViewController:browserViewController animated:YES];
-    }
-    else
+    [self.navigationController pushViewController:browserViewController animated:YES];
+
+    if(0)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"scan result"
                                                         message:captureStr
